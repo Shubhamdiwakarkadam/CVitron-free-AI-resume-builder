@@ -1857,6 +1857,58 @@ input::placeholder, textarea::placeholder {
   display: none !important;
 }
 
+/* Zoom Controls */
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  padding: 4px 8px;
+  border-radius: var(--border-radius-md);
+  margin-right: 12px;
+}
+
+.btn-zoom-action {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-smooth);
+}
+
+.btn-zoom-action:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.btn-zoom-action svg {
+  width: 14px;
+  height: 14px;
+}
+
+.zoom-level {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  min-width: 68px;
+  text-align: center;
+  user-select: none;
+}
+
+/* Hide zoom controls on mobile print setups since they are not needed */
+@media (max-width: 576px) {
+  .zoom-controls {
+    display: none !important;
+  }
+}
+
 /* --- ELECTRON PDF PRINT CSS OVERRIDES --- */
 @media print {
   /* Override body constraints completely for printed layouts */

@@ -846,12 +846,12 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(scaleResumePreview, 0);
   }
 
-  // ----------------------------------------------------
-  // DYNAMIC PREVIEW AUTO-SCALING ENGINE
-  // ----------------------------------------------------
+  let userZoom = null; // null = Auto-fit mode
+  
   function scaleResumePreview() {
     const container = document.querySelector('.pdf-container');
     const sheet = document.getElementById('resume-sheet-preview');
+    const zoomText = document.getElementById('zoom-level-text');
     if (!container || !sheet) return;
 
     // Reset styles temporarily to measure clean unscaled dimensions
@@ -859,35 +859,95 @@ document.addEventListener('DOMContentLoaded', () => {
     sheet.style.marginBottom = '0';
 
     const containerWidth = container.clientWidth;
-    
-    // Check if vertical stacked mobile mode is active
-    if (window.innerWidth <= 768) {
-      const targetWidth = containerWidth - 20; // 10px side margins
-      const scale = targetWidth / 794; // 794px is base A4 page width
-      
-      if (scale < 1) {
-        sheet.style.transform = `scale(${scale})`;
-        sheet.style.transformOrigin = 'top left';
-        // Pull up contents below to prevent empty spacing flow gaps
-        const marginB = (1 - scale) * sheet.offsetHeight;
-        sheet.style.marginBottom = `-${marginB}px`;
+    let finalScale = 1.0;
+
+    if (userZoom !== null) {
+      // Manual zoom mode active
+      finalScale = userZoom;
+      if (zoomText) {
+        zoomText.innerText = Math.round(userZoom * 100) + '%';
       }
-    } else {
-      // Desktop side-by-side: scale to fit columns perfectly
-      const targetWidth = containerWidth - 40; // 20px padding
-      const scale = targetWidth / 794;
       
-      if (scale < 1) {
-        sheet.style.transform = `scale(${scale})`;
-        sheet.style.transformOrigin = 'top center';
-        const marginB = (1 - scale) * sheet.offsetHeight;
-        sheet.style.marginBottom = `-${marginB}px`;
+      sheet.style.transform = `scale(${finalScale})`;
+      sheet.style.transformOrigin = window.innerWidth <= 768 ? 'top left' : 'top center';
+      
+      const marginB = (1 - finalScale) * sheet.offsetHeight;
+      sheet.style.marginBottom = `-${marginB}px`;
+      
+    } else {
+      // Auto-fit mode
+      if (window.innerWidth <= 768) {
+        const targetWidth = containerWidth - 20; // 10px side margins
+        finalScale = targetWidth / 794; // 794px is base A4 page width
+        
+        if (finalScale < 1) {
+          sheet.style.transform = `scale(${finalScale})`;
+          sheet.style.transformOrigin = 'top left';
+          const marginB = (1 - finalScale) * sheet.offsetHeight;
+          sheet.style.marginBottom = `-${marginB}px`;
+        }
+      } else {
+        // Desktop side-by-side: scale to fit columns perfectly
+        const targetWidth = containerWidth - 40; // 20px padding
+        finalScale = targetWidth / 794;
+        
+        if (finalScale < 1) {
+          sheet.style.transform = `scale(${finalScale})`;
+          sheet.style.transformOrigin = 'top center';
+          const marginB = (1 - finalScale) * sheet.offsetHeight;
+          sheet.style.marginBottom = `-${marginB}px`;
+        } else {
+          finalScale = 1.0;
+        }
+      }
+      
+      if (zoomText) {
+        zoomText.innerText = Math.round(finalScale * 100) + '% (Auto)';
       }
     }
   }
 
   // Bind scale engine to window resize event
   window.addEventListener('resize', scaleResumePreview);
+
+  // Zoom Buttons Event Listeners
+  const btnZoomIn = document.getElementById('btn-zoom-in');
+  const btnZoomOut = document.getElementById('btn-zoom-out');
+  const btnZoomReset = document.getElementById('btn-zoom-reset');
+
+  if (btnZoomIn) {
+    btnZoomIn.addEventListener('click', () => {
+      if (userZoom === null) {
+        const container = document.querySelector('.pdf-container');
+        const containerWidth = container ? container.clientWidth : 794;
+        const autoScale = window.innerWidth <= 768 ? (containerWidth - 20) / 794 : (containerWidth - 40) / 794;
+        userZoom = Math.round(autoScale * 10) / 10;
+      }
+      userZoom = Math.min(2.0, userZoom + 0.1);
+      scaleResumePreview();
+    });
+  }
+
+  if (btnZoomOut) {
+    btnZoomOut.addEventListener('click', () => {
+      if (userZoom === null) {
+        const container = document.querySelector('.pdf-container');
+        const containerWidth = container ? container.clientWidth : 794;
+        const autoScale = window.innerWidth <= 768 ? (containerWidth - 20) / 794 : (containerWidth - 40) / 794;
+        userZoom = Math.round(autoScale * 10) / 10;
+      }
+      userZoom = Math.max(0.3, userZoom - 0.1);
+      scaleResumePreview();
+    });
+  }
+
+  if (btnZoomReset) {
+    btnZoomReset.addEventListener('click', () => {
+      userZoom = null;
+      scaleResumePreview();
+      showToast('Zoom locked to auto-fit width', 1500);
+    });
+  }
 
 
   // ----------------------------------------------------
@@ -1702,7 +1762,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
   // GLOBAL AUDIO FEEDBACK EVENT BINDINGS
   // ----------------------------------------------------
   // List of interactive selectors to play hover and click sounds
-  const interactiveSelector = '.menu-item, .btn-primary, .btn-secondary, .btn-micro, .btn-micro-ai, .accordion-header, .btn-toggle-sidebar, .layout-splitter';
+  const interactiveSelector = '.menu-item, .btn-primary, .btn-secondary, .btn-micro, .btn-micro-ai, .accordion-header, .btn-toggle-sidebar, .layout-splitter, .btn-zoom-action';
   
   // Hover effect: mouseenter
   document.addEventListener('mouseenter', (e) => {

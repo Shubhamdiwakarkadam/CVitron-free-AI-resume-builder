@@ -563,6 +563,20 @@
             <span class="preview-subtitle">Matches print boundaries (A4 size)</span>
           </div>
           <div class="preview-actions">
+            <!-- Zoom Controls -->
+            <div class="zoom-controls">
+              <button class="btn-zoom-action" id="btn-zoom-out" data-tooltip="Zoom Out">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              </button>
+              <span class="zoom-level" id="zoom-level-text">100%</span>
+              <button class="btn-zoom-action" id="btn-zoom-in" data-tooltip="Zoom In">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              </button>
+              <button class="btn-zoom-action" id="btn-zoom-reset" data-tooltip="Auto-fit Screen Width">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+              </button>
+            </div>
+
             <button class="btn-primary" id="btn-export-pdf" data-tooltip="Compile and download PDF resume">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
               Export PDF
