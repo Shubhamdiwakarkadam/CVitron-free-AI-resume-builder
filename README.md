@@ -1,5 +1,7 @@
 # ResuAI - AI Resume Builder & ATS Optimizer
 
+![ResuAI Dashboard Mockup](screenshot.jpg)
+
 ResuAI is a premium, feature-rich desktop application built with Electron, HTML5, CSS3, and JavaScript, integrated with the Google Gemini API. It empowers users to create professional, ATS-optimized resumes, evaluate job description compatibility, polish experience descriptions, generate tailored cover letters, and export print-ready PDFs.
 
 ---
