@@ -2126,9 +2126,6 @@ input::placeholder, textarea::placeholder {
   }
 
   .resume-sheet {
-    transform: scale(0.48) !important;
-    transform-origin: top left !important;
-    margin-bottom: -540px !important; /* compensate for vertical scale empty flow space */
     flex-shrink: 0 !important;
   }
 
@@ -2154,10 +2151,6 @@ input::placeholder, textarea::placeholder {
 @media (min-width: 577px) and (max-width: 768px) {
   .menu-item span {
     display: inline !important; /* Show labels on tablets */
-  }
-  .resume-sheet {
-    transform: scale(0.7) !important;
-    margin-bottom: -320px !important;
   }
 }
 

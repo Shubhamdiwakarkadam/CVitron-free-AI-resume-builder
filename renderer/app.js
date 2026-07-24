@@ -842,7 +842,52 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>`;
     }
 
+    // Recalculate preview scaling matrix dynamically
+    setTimeout(scaleResumePreview, 0);
   }
+
+  // ----------------------------------------------------
+  // DYNAMIC PREVIEW AUTO-SCALING ENGINE
+  // ----------------------------------------------------
+  function scaleResumePreview() {
+    const container = document.querySelector('.pdf-container');
+    const sheet = document.getElementById('resume-sheet-preview');
+    if (!container || !sheet) return;
+
+    // Reset styles temporarily to measure clean unscaled dimensions
+    sheet.style.transform = 'none';
+    sheet.style.marginBottom = '0';
+
+    const containerWidth = container.clientWidth;
+    
+    // Check if vertical stacked mobile mode is active
+    if (window.innerWidth <= 768) {
+      const targetWidth = containerWidth - 20; // 10px side margins
+      const scale = targetWidth / 794; // 794px is base A4 page width
+      
+      if (scale < 1) {
+        sheet.style.transform = `scale(${scale})`;
+        sheet.style.transformOrigin = 'top left';
+        // Pull up contents below to prevent empty spacing flow gaps
+        const marginB = (1 - scale) * sheet.offsetHeight;
+        sheet.style.marginBottom = `-${marginB}px`;
+      }
+    } else {
+      // Desktop side-by-side: scale to fit columns perfectly
+      const targetWidth = containerWidth - 40; // 20px padding
+      const scale = targetWidth / 794;
+      
+      if (scale < 1) {
+        sheet.style.transform = `scale(${scale})`;
+        sheet.style.transformOrigin = 'top center';
+        const marginB = (1 - scale) * sheet.offsetHeight;
+        sheet.style.marginBottom = `-${marginB}px`;
+      }
+    }
+  }
+
+  // Bind scale engine to window resize event
+  window.addEventListener('resize', scaleResumePreview);
 
 
   // ----------------------------------------------------
@@ -1458,6 +1503,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
         
         if (newWidth >= minWidth && newWidth <= maxWidth) {
           controlsPanel.style.width = newWidth + 'px';
+          scaleResumePreview();
         }
       }
       
