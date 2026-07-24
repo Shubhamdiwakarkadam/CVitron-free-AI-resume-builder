@@ -2026,3 +2026,138 @@ input::placeholder, textarea::placeholder {
   }
 }
 
+/* --- MOBILE RESPONSIVENESS AND TABLET STYLING --- */
+@media (max-width: 768px) {
+  body {
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+
+  .app-container {
+    flex-direction: column !important;
+    height: auto !important;
+    width: 100% !important;
+    overflow-y: auto !important;
+  }
+
+  .sidebar {
+    width: 100% !important;
+    height: auto !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 12px 16px !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    background-color: var(--bg-secondary) !important;
+  }
+
+  .sidebar-brand {
+    margin-bottom: 0 !important;
+    width: auto !important;
+  }
+
+  .brand-logo {
+    font-size: 18px !important;
+  }
+
+  .btn-toggle-sidebar {
+    display: none !important;
+  }
+
+  .sidebar-menu {
+    flex-direction: row !important;
+    gap: 12px !important;
+    flex-grow: 0 !important;
+    margin: 0 !important;
+  }
+
+  .menu-item {
+    padding: 8px 12px !important;
+    gap: 4px !important;
+    font-size: 12px !important;
+  }
+
+  .menu-item span {
+    display: none !important; /* Hide labels on mobile screen to save space */
+  }
+
+  .sidebar-footer {
+    display: none !important;
+  }
+
+  .main-workspace {
+    flex-direction: column !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .controls-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    padding: 20px 16px !important;
+    overflow-y: visible !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    background-color: rgba(11, 15, 25, 0.8) !important;
+  }
+
+  .layout-splitter {
+    display: none !important;
+  }
+
+  .preview-panel {
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 20px 16px !important;
+  }
+
+  /* Scale A4 sheet to fit mobile screen width */
+  .pdf-container {
+    overflow-x: auto !important;
+    padding: 10px 0 !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+  }
+
+  .resume-sheet {
+    transform: scale(0.48) !important;
+    transform-origin: top left !important;
+    margin-bottom: -540px !important; /* compensate for vertical scale empty flow space */
+    flex-shrink: 0 !important;
+  }
+
+  /* Form layout columns wrap on small screens */
+  .form-grid {
+    gap: 12px !important;
+  }
+
+  .form-group.col-6,
+  .form-group.col-4,
+  .form-group.col-3 {
+    grid-column: span 12 !important; /* full width inputs */
+  }
+
+  /* Comparison boxes inside AI Enhancer stack on mobile */
+  .comparison-panel {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+}
+
+/* Tablet refinements */
+@media (min-width: 577px) and (max-width: 768px) {
+  .menu-item span {
+    display: inline !important; /* Show labels on tablets */
+  }
+  .resume-sheet {
+    transform: scale(0.7) !important;
+    margin-bottom: -320px !important;
+  }
+}
+
