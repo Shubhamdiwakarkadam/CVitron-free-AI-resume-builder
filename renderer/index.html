@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ResuAI - AI Resume Builder & ATS Checker</title>
+  <!-- Google Fonts: Inter for UI, Outfit for Headings, Crimson Pro for PDF Resume -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300..900;1,300..900&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Futuristic Startup Splash Screen -->
+  <div id="startup-splash" class="startup-splash-overlay">
+    <div class="splash-content">
+      <div class="splash-logo-container">
+        <svg class="splash-brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        <div class="splash-scan-glow"></div>
+      </div>
+      <h1 class="splash-title">ResuAI</h1>
+      <p class="splash-subtitle">Initializing Neural Engine...</p>
+      <div class="splash-progress-track">
+        <div class="splash-progress-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">
+          <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <span class="brand-name">ResuAI</span>
+        </div>
+        <button id="btn-toggle-sidebar" class="btn-toggle-sidebar" data-tooltip="Collapse sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-menu">
+        <button class="menu-item active" data-tab="builder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+          <span>Resume Builder</span>
+        </button>
+        <button class="menu-item" data-tab="ats">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg>
+          <span>ATS Checker</span>
+        </button>
+        <button class="menu-item" data-tab="cover-letter">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          <span>Cover Letter</span>
+        </button>
+        <button class="menu-item" data-tab="ai-improve">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <span>AI Enhancer</span>
+        </button>
+        <button class="menu-item" data-tab="settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>Settings</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="api-badge" id="api-status-badge" data-tooltip="AI connectivity status">
+          <div class="badge-dot dot-red"></div>
+          <span class="badge-text">Mock Mode</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="main-workspace">
+      <!-- Workspace Left Side: Forms & Controls -->
+      <section class="controls-panel">
+        
+        <!-- SECTION 1: RESUME BUILDER -->
+        <div id="tab-builder" class="tab-content active">
+          <header class="section-header">
+            <h2>Resume Builder</h2>
+            <p>Enter your professional history and detail details.</p>
+          </header>
+
+          <div class="form-accordion">
+            
+            <!-- Personal Details -->
+            <div class="accordion-item expanded">
+              <div class="accordion-header">
+                <span>Personal Info</span>
+                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+              <div class="accordion-body">
+                <div class="form-grid">
+                  <div class="form-group col-6">
+                    <label for="input-fullname">Full Name</label>
+                    <input type="text" id="input-fullname" placeholder="John Doe">
+                  </div>
+                  <div class="form-group col-6">
+                    <label for="input-title">Job Title</label>
+                    <input type="text" id="input-title" placeholder="Senior Software Engineer">
+                  </div>
+                  <div class="form-group col-4">
+                    <label for="input-email">Email</label>
+                    <input type="email" id="input-email" placeholder="john.doe@example.com">
+                  </div>
+                  <div class="form-group col-4">
+                    <label for="input-phone">Phone</label>
+                    <input type="tel" id="input-phone" placeholder="+1 (555) 019-2834">
+                  </div>
+                  <div class="form-group col-4">
+                    <label for="input-location">Location</label>
+                    <input type="text" id="input-location" placeholder="San Francisco, CA">
+                  </div>
+                  <div class="form-group col-6">
+                    <label for="input-linkedin">LinkedIn URL</label>
+                    <input type="url" id="input-linkedin" placeholder="linkedin.com/in/johndoe">
+                  </div>
+                  <div class="form-group col-6">
+                    <label for="input-website">Website/Portfolio</label>
+                    <input type="url" id="input-website" placeholder="johndoe.dev">
+                  </div>
+                  <div class="form-group col-12">
+                    <label>Candidate Photo (Optional)</label>
+                    <div style="display: flex; gap: 12px; align-items: center; margin-top: 4px;">
+                      <input type="file" id="input-photo" accept="image/*" style="flex-grow: 1;">
+                      <button class="btn-micro" id="btn-remove-photo" style="display: none; color: var(--error-color); border-color: rgba(239, 68, 68, 0.2);">Remove</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Templates & Styling -->
+            <div class="accordion-item">
+              <div class="accordion-header">
+                <span>Templates & Styling</span>
+                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+              <div class="accordion-body">
+                <div class="form-grid">
+                  <div class="form-group col-12">
+                    <label for="builder-theme-select">Select Resume Theme (10 Pro Designs)</label>
+                    <select id="builder-theme-select" style="width: 100%;">
+                      <option value="theme-executive" selected>Executive (Classic Serif & Navy Accent)</option>
+                      <option value="theme-tech-minimal">Tech Minimal (Slate Sans & Slate Accent)</option>
+                      <option value="theme-creative-split">Creative Split (Two-Column Sidebar Layout)</option>
+                      <option value="theme-modern-teal">Modern Teal (Clean Accent Banner)</option>
+                      <option value="theme-academic-cv">Academic CV (Traditional Times New Roman)</option>
+                      <option value="theme-bold-monospace">Developer Monospace (Terminal Blue/Green Style)</option>
+                      <option value="theme-elegant-emerald">Elegant Emerald (Centered Outfit & Green Accent)</option>
+                      <option value="theme-warm-corporate">Warm Corporate (Warm Gray & Coral Accent)</option>
+                      <option value="theme-minimal-border">Minimal Border (Clean Layout with Frame)</option>
+                      <option value="theme-startup-purple">Startup Purple (Outfit & Vibrant Purple Accent)</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-6">
+                    <label for="builder-fontsize-select">Font Size</label>
+                    <select id="builder-fontsize-select">
+                      <option value="small">Small (10pt)</option>
+                      <option value="medium" selected>Medium (11pt)</option>
+                      <option value="large">Large (12pt)</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-6">
+                    <label for="builder-margin-select">Margin Spacing</label>
+                    <select id="builder-margin-select">
+                      <option value="compact">Compact Margins</option>
+                      <option value="normal" selected>Normal Margins</option>
+                      <option value="wide">Wide Margins</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Professional Summary -->
+            <div class="accordion-item draggable-section" draggable="false" data-section-id="sheet-section-summary">
+              <div class="accordion-header">
+                <span style="display: flex; align-items: center; gap: 8px;">
+                  <svg class="drag-handle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px; color: var(--text-muted);" data-tooltip="Drag to rearrange section sequence"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
+                  Professional Summary
+                </span>
+                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+              <div class="accordion-body">
+                <div class="form-group">
+                  <div class="label-header">
+                    <label for="input-summary">Summary Statement</label>
+                    <button class="btn-micro-ai" id="ai-improve-summary-btn" data-tooltip="Polish summary with Gemini AI">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                      AI Improve
+                    </button>
+                  </div>
+                  <textarea id="input-summary" rows="4" placeholder="Briefly describe your career objectives, technical strengths, and core accomplishments..."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Work Experience -->
+            <div class="accordion-item draggable-section" draggable="false" data-section-id="sheet-section-experience">
+              <div class="accordion-header">
+                <span style="display: flex; align-items: center; gap: 8px;">
+                  <svg class="drag-handle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px; color: var(--text-muted);" data-tooltip="Drag to rearrange section sequence"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
+                  Work Experience
+                </span>
+                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+              <div class="accordion-body">
+                <div id="experience-list" class="repeating-list">
+                  <!-- Experience cards populated by app.js -->
+                </div>
+                <button class="btn-secondary" id="add-experience-btn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  Add Experience
+                </button>
+              </div>
+            </div>
+
+            <!-- Education -->
+            <div class="accordion-item draggable-section" draggable="false" data-section-id="sheet-section-education">
+              <div class="accordion-header">
+                <span style="display: flex; align-items: center; gap: 8px;">
+                  <svg class="drag-handle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px; color: var(--text-muted);" data-tooltip="Drag to rearrange section sequence"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
+                  Education
+                </span>
+                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+              <div class="accordion-body">
+                <div id="education-list" class="repeating-list">
+                  <!-- Education cards populated by app.js -->
+                </div>
+                <button class="btn-secondary" id="add-education-btn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  Add Education
+                </button>
+              </div>
+            </div>
+
+            <!-- Projects -->
+            <div class="accordion-item draggable-section" draggable="false" data-section-id="sheet-section-projects">
+              <div class="accordion-header">
+                <span style="display: flex; align-items: center; gap: 8px;">
+                  <svg class="drag-handle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px; color: var(--text-muted);" data-tooltip="Drag to rearrange section sequence"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
+                  Projects
+                </span>
+                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+              <div class="accordion-body">
+                <div id="projects-list" class="repeating-list">
+                  <!-- Project cards populated by app.js -->
+                </div>
+                <button class="btn-secondary" id="add-project-btn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  Add Project
+                </button>
+              </div>
+            </div>
+
+            <!-- Skills -->
+            <div class="accordion-item draggable-section" draggable="false" data-section-id="sheet-section-skills">
+              <div class="accordion-header">
+                <span style="display: flex; align-items: center; gap: 8px;">
+                  <svg class="drag-handle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px; color: var(--text-muted);" data-tooltip="Drag to rearrange section sequence"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
+                  Skills
+                </span>
+                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+              <div class="accordion-body">
+                <div class="form-grid">
+                  <div class="form-group col-12">
+                    <label for="input-skills-languages">Languages & Core Tech (comma separated)</label>
+                    <input type="text" id="input-skills-languages" placeholder="JavaScript, Python, C++, Java, HTML5, CSS3">
+                  </div>
+                  <div class="form-group col-12">
+                    <label for="input-skills-frameworks">Frameworks & Libraries (comma separated)</label>
+                    <input type="text" id="input-skills-frameworks" placeholder="React, Node.js, Express, Vue, Django, Spring Boot">
+                  </div>
+                  <div class="form-group col-12">
+                    <label for="input-skills-tools">Tools & Databases (comma separated)</label>
+                    <input type="text" id="input-skills-tools" placeholder="Git, Docker, PostgreSQL, MongoDB, AWS, Kubernetes">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Custom Sections -->
+            <div class="accordion-item draggable-section" draggable="false" data-section-id="resume-sheet-custom-container">
+              <div class="accordion-header">
+                <span style="display: flex; align-items: center; gap: 8px;">
+                  <svg class="drag-handle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px; color: var(--text-muted);" data-tooltip="Drag to rearrange section sequence"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
+                  Custom Sections
+                </span>
+                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+              <div class="accordion-body">
+                <div id="custom-sections-list" class="repeating-list">
+                  <!-- Custom section cards populated by app.js -->
+                </div>
+                <button class="btn-secondary" id="add-custom-section-btn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  Add Custom Section
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SECTION 2: ATS CHECKER -->
+        <div id="tab-ats" class="tab-content">
+          <header class="section-header">
+            <h2>ATS Compatibility Checker</h2>
+            <p>Analyze how well your current resume matches a target job description.</p>
+          </header>
+
+          <div class="dashboard-card">
+            <div class="form-group">
+              <label for="ats-jd-input">Job Description</label>
+              <textarea id="ats-jd-input" rows="8" placeholder="Paste the job description you are targeting..."></textarea>
+            </div>
+            
+            <button class="btn-primary w-100" id="btn-run-ats" data-tooltip="Evaluate ATS alignment score">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              Analyze ATS Score
+            </button>
+          </div>
+
+          <!-- Loading Indicator -->
+          <div class="loader-container hidden" id="ats-loader">
+            <div class="spinner"></div>
+            <span>Analyzing resume compatibility against JD...</span>
+          </div>
+
+          <!-- ATS Results -->
+          <div class="ats-results-panel hidden" id="ats-results">
+            <div class="score-flex">
+              <div class="radial-progress-container">
+                <svg class="radial-progress" viewBox="0 0 100 100">
+                  <circle class="bg" cx="50" cy="50" r="40"></circle>
+                  <circle class="fg" id="ats-score-circle" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
+                </svg>
+                <div class="progress-number" id="ats-score-value">0%</div>
+              </div>
+              <div class="score-status">
+                <h3 id="ats-score-badge">Fair Match</h3>
+                <p id="ats-score-summary">The resume is a good starting point but lacks specific alignment with critical keywords from the job description.</p>
+              </div>
+            </div>
+
+            <div class="results-tab-group">
+              <div class="results-tab-headers">
+                <button class="tab-hdr active" data-subtab="ats-keywords">Keywords Match</button>
+                <button class="tab-hdr" data-subtab="ats-improvements">Suggested Fixes</button>
+              </div>
+              
+              <div class="results-tab-body">
+                <!-- Keywords subtab -->
+                <div id="ats-keywords" class="subtab-content active">
+                  <div class="keyword-section">
+                    <h4>Matched Keywords</h4>
+                    <div class="tag-cloud green" id="ats-matched-tags">
+                      <!-- Populated dynamically -->
+                    </div>
+                  </div>
+                  <div class="keyword-section mt-4">
+                    <h4>Missing Core Keywords</h4>
+                    <div class="tag-cloud red" id="ats-missing-tags">
+                      <!-- Populated dynamically -->
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Improvements subtab -->
+                <div id="ats-improvements" class="subtab-content">
+                  <ul class="bullet-list-improvements" id="ats-bullet-suggestions">
+                    <!-- Populated dynamically -->
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 3: COVER LETTER GENERATOR -->
+        <div id="tab-cover-letter" class="tab-content">
+          <header class="section-header">
+            <h2>AI Cover Letter Generator</h2>
+            <p>Generate a tailored, high-converting cover letter in seconds.</p>
+          </header>
+
+          <div class="dashboard-card">
+            <div class="form-grid">
+              <div class="form-group col-6">
+                <label for="cl-company">Company Name</label>
+                <input type="text" id="cl-company" placeholder="e.g. Google">
+              </div>
+              <div class="form-group col-6">
+                <label for="cl-role">Job Title</label>
+                <input type="text" id="cl-role" placeholder="e.g. Senior Frontend Engineer">
+              </div>
+              <div class="form-group col-12">
+                <label for="cl-jd">Job Description (Optional, helps match keywords)</label>
+                <textarea id="cl-jd" rows="5" placeholder="Paste target requirements here to align cover letter..."></textarea>
+              </div>
+            </div>
+            <button class="btn-primary w-100 mt-3" id="btn-generate-cl">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+              Generate Tailored Letter
+            </button>
+          </div>
+
+          <!-- Generator Loading -->
+          <div class="loader-container hidden" id="cl-loader">
+            <div class="spinner"></div>
+            <span>Drafting your cover letter with Gemini AI...</span>
+          </div>
+
+          <!-- Cover Letter Result -->
+          <div class="cl-result-panel hidden" id="cl-result-container">
+            <div class="panel-header">
+              <h3>Tailored Cover Letter</h3>
+              <button class="btn-micro" id="btn-copy-cl">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copy
+              </button>
+            </div>
+            <div class="cover-letter-paper" id="cl-letter-body" contenteditable="true">
+              <!-- Rendered letter goes here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 4: AI ENHANCER -->
+        <div id="tab-ai-improve" class="tab-content">
+          <header class="section-header">
+            <h2>AI Paragraph Enhancer</h2>
+            <p>Paste any section of your resume to rewrite it using action verbs and the STAR format.</p>
+          </header>
+
+          <div class="dashboard-card">
+            <div class="form-group">
+              <label for="ai-improve-input">Original Bullet Point or Paragraph</label>
+              <textarea id="ai-improve-input" rows="4" placeholder="e.g., I was responsible for maintaining the dashboard and writing tests, which decreased bugs."></textarea>
+            </div>
+            <div class="form-grid mt-3">
+              <div class="form-group col-6">
+                <label for="ai-improve-tone">Rewrite Tone</label>
+                <select id="ai-improve-tone">
+                  <option value="star">STAR Method (Action/Result oriented)</option>
+                  <option value="confident">Confident / High-achiever</option>
+                  <option value="concise">Clear & Concise</option>
+                  <option value="academic">Academic & Technical</option>
+                </select>
+              </div>
+              <div class="form-group col-6">
+                <label for="ai-improve-keywords">Keywords to Inject (Optional)</label>
+                <input type="text" id="ai-improve-keywords" placeholder="e.g. AWS, React, CI/CD">
+              </div>
+            </div>
+            <button class="btn-primary w-100 mt-3" id="btn-run-improve">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              Improve Text
+            </button>
+          </div>
+
+          <!-- Loading -->
+          <div class="loader-container hidden" id="improve-loader">
+            <div class="spinner"></div>
+            <span>Optimizing text content...</span>
+          </div>
+
+          <!-- Enhancement comparison -->
+          <div class="comparison-panel hidden" id="improve-results">
+            <div class="comparison-column">
+              <h4>Original Text</h4>
+              <div class="comparison-box orig" id="improve-orig-box"></div>
+            </div>
+            <div class="comparison-column">
+              <h4>Enhanced Version</h4>
+              <div class="comparison-box improved" id="improve-new-box" contenteditable="true"></div>
+              <button class="btn-secondary w-100 mt-3" id="btn-copy-improved">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copy Improved Text
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 5: SETTINGS -->
+        <div id="tab-settings" class="tab-content">
+          <header class="section-header">
+            <h2>Application Settings</h2>
+            <p>Configure your Gemini API settings and application behavior.</p>
+          </header>
+
+          <div class="dashboard-card">
+            <h3>Gemini AI Settings</h3>
+            <p class="description-txt">This app utilizes Google Gemini AI. You can generate a free API key in Google AI Studio to enable all resume checking and cover letter features.</p>
+            
+            <div class="form-group mt-3">
+              <label for="settings-api-key">Gemini API Key</label>
+              <input type="password" id="settings-api-key" placeholder="Enter your GEMINI_API_KEY...">
+            </div>
+
+            <div class="form-group mt-3">
+              <label class="toggle-switch">
+                <input type="checkbox" id="settings-mock-mode" checked>
+                <span class="slider"></span>
+                <span class="toggle-label">Use Mock Mode (Simulates AI responses without a key)</span>
+              </label>
+            </div>
+
+            <button class="btn-primary mt-4" id="btn-save-settings">
+              Save Configuration
+            </button>
+          </div>
+
+
+
+          <div class="dashboard-card mt-4">
+            <h3>Export Settings</h3>
+            <div class="form-group">
+              <label for="settings-theme">Active Resume Theme</label>
+              <select id="settings-theme">
+                <option value="theme-executive">Executive (Classic Serif & Navy)</option>
+                <option value="theme-tech-minimal">Tech Minimal (Slate Sans)</option>
+                <option value="theme-creative-split">Creative Split (Two-Column)</option>
+                <option value="theme-modern-teal">Modern Teal (Teal Banner)</option>
+                <option value="theme-academic-cv">Academic CV (Traditional Times)</option>
+                <option value="theme-bold-monospace">Developer Monospace (Terminal Dev)</option>
+                <option value="theme-elegant-emerald">Elegant Emerald (Centered Outfit & Green)</option>
+                <option value="theme-warm-corporate">Warm Corporate (Warm Gray & Coral)</option>
+                <option value="theme-minimal-border">Minimal Border (Framed Layout)</option>
+                <option value="theme-startup-purple">Startup Purple (Vibrant Purple)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Draggable Splitter Divider -->
+      <div id="layout-splitter" class="layout-splitter" data-tooltip="Drag to resize workspace panels"></div>
+
+      <!-- Workspace Right Side: Live Resume Preview -->
+      <section class="preview-panel">
+        <div class="preview-header">
+          <div class="preview-title">
+            <h3>Live Preview</h3>
+            <span class="preview-subtitle">Matches print boundaries (A4 size)</span>
+          </div>
+          <div class="preview-actions">
+            <button class="btn-primary" id="btn-export-pdf" data-tooltip="Compile and download PDF resume">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Export PDF
+            </button>
+          </div>
+        </div>
+
+        <div class="pdf-container">
+          <div class="resume-sheet classic" id="resume-sheet-preview">
+            <!-- DYNAMIC RESUME SHEET CONTENT (Rendered dynamically based on active template) -->
+             <header class="resume-header-sheet">
+              <div class="resume-header-flex-wrapper">
+                <div class="resume-photo-container hidden" id="resume-sheet-photo-container">
+                  <img id="resume-sheet-photo" src="" alt="Candidate Photo">
+                </div>
+                <div class="resume-header-text">
+                  <h1 id="resume-sheet-name">John Doe</h1>
+                  <p class="resume-title-sub" id="resume-sheet-title">Senior Software Engineer</p>
+                  <div class="resume-contacts" id="resume-sheet-contacts">
+                    <!-- Populated dynamically -->
+                  </div>
+                </div>
+              </div>
+            </header>
+
+            <div class="resume-body-sheet">
+              
+              <!-- Summary Section -->
+              <section class="sheet-section hidden" id="sheet-section-summary">
+                <h3 class="section-title-sheet">Professional Summary</h3>
+                <div class="section-divider-sheet"></div>
+                <p id="resume-sheet-summary"></p>
+              </section>
+
+              <!-- Experience Section -->
+              <section class="sheet-section hidden" id="sheet-section-experience">
+                <h3 class="section-title-sheet">Professional Experience</h3>
+                <div class="section-divider-sheet"></div>
+                <div id="resume-sheet-experience-container">
+                  <!-- Experience blocks -->
+                </div>
+              </section>
+
+              <!-- Education Section -->
+              <section class="sheet-section hidden" id="sheet-section-education">
+                <h3 class="section-title-sheet">Education</h3>
+                <div class="section-divider-sheet"></div>
+                <div id="resume-sheet-education-container">
+                  <!-- Education blocks -->
+                </div>
+              </section>
+
+              <!-- Projects Section -->
+              <section class="sheet-section hidden" id="sheet-section-projects">
+                <h3 class="section-title-sheet">Key Projects</h3>
+                <div class="section-divider-sheet"></div>
+                <div id="resume-sheet-projects-container">
+                  <!-- Project blocks -->
+                </div>
+              </section>
+
+              <!-- Skills Section -->
+              <section class="sheet-section hidden" id="sheet-section-skills">
+                <h3 class="section-title-sheet">Technical Skills</h3>
+                <div class="section-divider-sheet"></div>
+                <div class="skills-grid-sheet" id="resume-sheet-skills-container">
+                  <!-- Technical skills tags -->
+                </div>
+              </section>
+
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Payment Modal Overlay -->
+  <div id="payment-modal" class="payment-modal-overlay hidden">
+    <div class="payment-modal-card">
+      <div class="payment-modal-header">
+        <h3>Unlock Premium PDF Export</h3>
+        <p>Choose a payment method to complete checkout and download your resume.</p>
+      </div>
+      
+      <!-- Payment Tab Navigation -->
+      <div class="payment-tabs">
+        <button class="payment-tab active" id="tab-btn-upi">UPI / QR Code</button>
+        <button class="payment-tab" id="tab-btn-paypal">PayPal & Cards</button>
+      </div>
+
+      <!-- Payment Panels -->
+      <div class="payment-modal-body">
+        
+        <!-- PANEL 1: UPI & QR CODE -->
+        <div id="payment-panel-upi" class="payment-panel">
+          <div class="upi-instruction" style="text-align: center; margin-bottom: 12px;">
+            <p style="font-size: 12px; color: var(--text-secondary);">Scan this QR code with any UPI app (GPay, PhonePe, Paytm, BHIM) to pay <strong>₹20</strong>.</p>
+          </div>
+          
+          <div class="upi-qr-container" style="display: flex; justify-content: center; margin-bottom: 12px;">
+            <div style="background-color: white; padding: 10px; border-radius: var(--border-radius-md); box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: inline-block;">
+              <img id="payment-upi-qr" src="" alt="UPI Payment QR Code" style="width: 170px; height: 170px; display: block;">
+            </div>
+          </div>
+          
+          <div class="upi-details" style="font-size: 12px; background-color: var(--bg-tertiary); padding: 8px 12px; border-radius: var(--border-radius-md); border: 1px dashed var(--border-color); text-align: center; margin-bottom: 14px;">
+            <div>UPI ID: <strong id="payment-upi-id-txt" style="color: var(--text-primary);">shubhamdiwakarkadam-2@okaxis</strong></div>
+            <div style="margin-top: 2px;">Amount to Pay: <strong>₹20.00</strong></div>
+          </div>
+          
+          <div class="form-group">
+            <label for="input-upi-utr" style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">Enter 12-Digit UPI Ref / UTR No.</label>
+            <input type="text" id="input-upi-utr" placeholder="e.g. 123456789012" maxlength="12" style="font-family: monospace; letter-spacing: 1px; text-align: center; font-size: 14px; width: 100%;">
+          </div>
+          
+          <button class="btn-primary w-100 mt-3" id="btn-verify-upi">
+            Verify & Download PDF
+          </button>
+        </div>
+
+        <!-- PANEL 2: PAYPAL SMART BUTTONS -->
+        <div id="payment-panel-paypal" class="payment-panel hidden">
+          <p style="font-size: 12px; color: var(--text-secondary); text-align: center; margin-bottom: 16px;">Pay a one-time fee of <strong>$0.25 (approx ₹20)</strong> using PayPal or your Debit/Credit card.</p>
+          <div id="paypal-button-container" style="min-height: 150px;"></div>
+        </div>
+        
+
+      </div>
+
+      <div class="payment-modal-footer" style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 12px;">
+        <button class="btn-secondary w-100" id="btn-close-payment">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast-notification" class="toast hidden">
+    <span id="toast-message">Configuration saved successfully!</span>
+  </div>
+
+
+  <!-- Custom Tooltip Node -->
+  <div id="app-tooltip" class="app-tooltip hidden"></div>
+
+  <!-- Safe JS Script Loading -->
+  <script src="ai.js"></script>
+  <script src="pdf.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
