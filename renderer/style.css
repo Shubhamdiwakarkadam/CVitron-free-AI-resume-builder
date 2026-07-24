@@ -1857,6 +1857,50 @@ input::placeholder, textarea::placeholder {
   display: none !important;
 }
 
+/* Sidebar Download Desktop App Button */
+.btn-download-desktop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px dashed rgba(99, 102, 241, 0.3);
+  color: #a5b4fc;
+  padding: 10px 14px;
+  border-radius: var(--border-radius-md);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  width: 100%;
+  margin-top: 16px;
+}
+
+.btn-download-desktop:hover {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.6);
+  color: white;
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.2);
+}
+
+.btn-download-desktop svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* Sidebar Collapsed overrides */
+.sidebar.collapsed .btn-download-desktop {
+  justify-content: center;
+  padding: 10px 0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.sidebar.collapsed .btn-download-text {
+  display: none;
+}
+
 /* --- ELECTRON PDF PRINT CSS OVERRIDES --- */
 @media print {
   /* Override body constraints completely for printed layouts */

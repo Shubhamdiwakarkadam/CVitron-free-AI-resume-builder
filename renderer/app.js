@@ -1656,7 +1656,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
   // GLOBAL AUDIO FEEDBACK EVENT BINDINGS
   // ----------------------------------------------------
   // List of interactive selectors to play hover and click sounds
-  const interactiveSelector = '.menu-item, .btn-primary, .btn-secondary, .btn-micro, .btn-micro-ai, .accordion-header, .btn-toggle-sidebar, .layout-splitter';
+  const interactiveSelector = '.menu-item, .btn-primary, .btn-secondary, .btn-micro, .btn-micro-ai, .accordion-header, .btn-toggle-sidebar, .layout-splitter, .btn-download-desktop';
   
   // Hover effect: mouseenter
   document.addEventListener('mouseenter', (e) => {
