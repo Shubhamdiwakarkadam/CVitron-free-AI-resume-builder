@@ -1635,12 +1635,6 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
     }
   }
 
-  // Hide the download desktop button if running inside the Electron app
-  const downloadBtn = document.querySelector('.btn-download-desktop');
-  if (downloadBtn && window.electronAPI) {
-    downloadBtn.style.display = 'none';
-  }
-
   // ----------------------------------------------------
   // APP STARTUP SPLASH SCREEN TIMEOUT
   // ----------------------------------------------------
@@ -1662,7 +1656,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
   // GLOBAL AUDIO FEEDBACK EVENT BINDINGS
   // ----------------------------------------------------
   // List of interactive selectors to play hover and click sounds
-  const interactiveSelector = '.menu-item, .btn-primary, .btn-secondary, .btn-micro, .btn-micro-ai, .accordion-header, .btn-toggle-sidebar, .layout-splitter, .btn-download-desktop';
+  const interactiveSelector = '.menu-item, .btn-primary, .btn-secondary, .btn-micro, .btn-micro-ai, .accordion-header, .btn-toggle-sidebar, .layout-splitter';
   
   // Hover effect: mouseenter
   document.addEventListener('mouseenter', (e) => {
