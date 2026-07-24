@@ -1,5 +1,5 @@
 /**
- * ResuAI Application Orchestrator - Renderer Process Main Script
+ * CVitron Application Orchestrator - Renderer Process Main Script
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1191,7 +1191,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
               amount: {
                 value: '0.25'
               },
-            description: 'ResuAI Premium PDF Resume Unlock'
+            description: 'CVitron Premium PDF Resume Unlock'
           }]
         });
       },
@@ -1223,7 +1223,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
     const merchantUpi = DEVELOPER_UPI_ID;
     
     // Standard UPI deep link
-    const upiLink = `upi://pay?pa=${encodeURIComponent(merchantUpi)}&pn=ResuAI&am=20.00&cu=INR&tn=PremiumResume`;
+    const upiLink = `upi://pay?pa=${encodeURIComponent(merchantUpi)}&pn=CVitron&am=20.00&cu=INR&tn=PremiumResume`;
     
     // Generate QR code using public serverless API
     const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiLink)}`;

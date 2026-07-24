@@ -1,12 +1,12 @@
-# ResuAI - AI Resume Builder & ATS Optimizer
+# CVitron - AI Resume Builder & ATS Optimizer
 
-![ResuAI Dashboard - Resizable Panels](screenshot1.png)
+![CVitron Dashboard - Resizable Panels](screenshot1.png)
 *Interactive workspace with resizable panels and hover tooltips.*
 
-![ResuAI Dashboard - Layout Preview](screenshot2.png)
+![CVitron Dashboard - Layout Preview](screenshot2.png)
 *A4 document preview showing professional experience and formatting styles.*
 
-ResuAI is a premium, feature-rich desktop application built with Electron, HTML5, CSS3, and JavaScript, integrated with the Google Gemini API. It empowers users to create professional, ATS-optimized resumes, evaluate job description compatibility, polish experience descriptions, generate tailored cover letters, and export print-ready PDFs.
+CVitron is a premium, feature-rich desktop application built with Electron, HTML5, CSS3, and JavaScript, integrated with the Google Gemini API. It empowers users to create professional, ATS-optimized resumes, evaluate job description compatibility, polish experience descriptions, generate tailored cover letters, and export print-ready PDFs.
 
 ---
 

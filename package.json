@@ -13,8 +13,8 @@
     "electron-builder": "^26.15.3"
   },
   "build": {
-    "appId": "com.resuai.resumebuilder",
-    "productName": "ResuAI",
+    "appId": "com.cvitron.resumebuilder",
+    "productName": "CVitron",
     "directories": {
       "output": "dist"
     },
