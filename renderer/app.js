@@ -1635,6 +1635,12 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
     }
   }
 
+  // Hide the download desktop button if running inside the Electron app
+  const downloadBtn = document.querySelector('.btn-download-desktop');
+  if (downloadBtn && window.electronAPI) {
+    downloadBtn.style.display = 'none';
+  }
+
   // ----------------------------------------------------
   // APP STARTUP SPLASH SCREEN TIMEOUT
   // ----------------------------------------------------
