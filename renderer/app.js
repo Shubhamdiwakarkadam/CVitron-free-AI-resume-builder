@@ -1510,6 +1510,11 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
   }
 
   btnVerifyUpi.addEventListener('click', () => {
+    // Synchronize latest contact inputs from DOM to state for accurate prefill
+    resumeData.personal.fullname = document.getElementById('input-fullname').value.trim();
+    resumeData.personal.email = document.getElementById('input-email').value.trim();
+    resumeData.personal.phone = document.getElementById('input-phone').value.trim();
+
     btnVerifyUpi.disabled = true;
     btnVerifyUpi.innerText = 'Initializing secure checkout...';
 
