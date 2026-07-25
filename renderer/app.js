@@ -170,6 +170,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Developer Configurations - Hardcoded for security
   const DEVELOPER_UPI_ID = 'shubhamdiwakarkadam-2@okaxis';
   const DEVELOPER_PAYPAL_CLIENT = 'sb';
+  const DEVELOPER_RAZORPAY_KEY = 'rzp_test_51Psz8o1O9pX2L4'; // Default Razorpay Test Key ID
+  
+  let razorpayLoaded = false;
 
   function initSettings() {
     const savedKey = AI.getApiKey();
@@ -1323,47 +1326,79 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
     }).render('#paypal-button-container');
   }
 
-  // UPI QR Code Generation & Verification
+  // Razorpay Checkout Integration
+  function loadRazorpaySDK(callback) {
+    if (razorpayLoaded) {
+      if (callback) callback();
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.onload = () => {
+      razorpayLoaded = true;
+      if (callback) callback();
+    };
+    script.onerror = () => {
+      console.error('Failed to load Razorpay SDK');
+      showToast('Error: Failed to connect to Razorpay. Check your network.', 4000);
+      btnVerifyUpi.disabled = false;
+      btnVerifyUpi.innerText = 'Pay ₹20.00 via Razorpay';
+    };
+    document.head.appendChild(script);
+  }
+
   function setupUpiPayment() {
-    const merchantUpi = DEVELOPER_UPI_ID;
-    
-    // Standard UPI deep link
-    const upiLink = `upi://pay?pa=${encodeURIComponent(merchantUpi)}&pn=CVitron&am=20.00&cu=INR&tn=PremiumResume`;
-    
-    // Generate QR code using public serverless API
-    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiLink)}`;
-    
-    document.getElementById('payment-upi-qr').src = qrUrl;
-    document.getElementById('payment-upi-id-txt').innerText = merchantUpi;
-    
-    // Reset UTR fields
-    inputUpiUtr.value = '';
     btnVerifyUpi.disabled = false;
-    btnVerifyUpi.innerText = 'Verify & Download PDF';
+    btnVerifyUpi.innerText = 'Pay ₹20.00 via Razorpay';
   }
 
   btnVerifyUpi.addEventListener('click', () => {
-    const utr = inputUpiUtr.value.trim();
-    
-    // Validate 12-digit numeric code
-    if (!/^\d{12}$/.test(utr)) {
-      showToast('Please enter a valid 12-digit numeric UPI Ref / UTR number.', 3500);
-      return;
-    }
-    
-    // Simulate payment validation with bank
     btnVerifyUpi.disabled = true;
-    btnVerifyUpi.innerText = 'Verifying with bank network...';
-    
-    setTimeout(() => {
-      isPaid = true;
-      closePaymentModal();
-      AudioEffects.playSuccess();
-      showToast('Transaction verified successfully! Download unlocked.', 3000);
-      setTimeout(() => {
-        PDFExporter.exportResume();
-      }, 800);
-    }, 1500);
+    btnVerifyUpi.innerText = 'Initializing secure checkout...';
+
+    loadRazorpaySDK(() => {
+      const options = {
+        "key": DEVELOPER_RAZORPAY_KEY,
+        "amount": "2000", // ₹20.00 (in paise)
+        "currency": "INR",
+        "name": "CVitron",
+        "description": "Unlock Premium Resume PDF Download",
+        "image": "https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=CVitron",
+        "handler": function (response) {
+          isPaid = true;
+          closePaymentModal();
+          AudioEffects.playSuccess();
+          showToast('Payment verified successfully! Download unlocked.', 3000);
+          setTimeout(() => {
+            PDFExporter.exportResume();
+          }, 800);
+        },
+        "modal": {
+          "ondismiss": function() {
+            btnVerifyUpi.disabled = false;
+            btnVerifyUpi.innerText = 'Pay ₹20.00 via Razorpay';
+          }
+        },
+        "prefill": {
+          "name": resumeData.personal.fullname || "",
+          "email": resumeData.personal.email || "",
+          "contact": resumeData.personal.phone || ""
+        },
+        "theme": {
+          "color": "#6366f1"
+        }
+      };
+
+      try {
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+      } catch (err) {
+        console.error('Razorpay initialization error:', err);
+        showToast('Failed to initialize Razorpay. Check your Key ID.', 4000);
+        btnVerifyUpi.disabled = false;
+        btnVerifyUpi.innerText = 'Pay ₹20.00 via Razorpay';
+      }
+    });
   });
 
   function openPaymentModal() {
