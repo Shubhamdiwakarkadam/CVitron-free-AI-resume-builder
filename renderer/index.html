@@ -193,7 +193,12 @@
                   <svg class="drag-handle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px; color: var(--text-muted);" data-tooltip="Drag to rearrange section sequence"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
                   <span class="section-title-text" contenteditable="true" data-section-id="sheet-section-summary" onclick="event.stopPropagation();" onmousedown="event.stopPropagation();" data-tooltip="Click to edit section title">Professional Summary</span>
                 </span>
-                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <div style="display: flex; align-items: center;">
+                  <button class="btn-remove-section" data-section-id="sheet-section-summary" onclick="event.stopPropagation();" onmousedown="event.stopPropagation();" data-tooltip="Hide/Delete this section">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                  </button>
+                  <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
               </div>
               <div class="accordion-body">
                 <div class="form-group">
@@ -216,7 +221,12 @@
                   <svg class="drag-handle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px; color: var(--text-muted);" data-tooltip="Drag to rearrange section sequence"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
                   <span class="section-title-text" contenteditable="true" data-section-id="sheet-section-experience" onclick="event.stopPropagation();" onmousedown="event.stopPropagation();" data-tooltip="Click to edit section title">Work Experience</span>
                 </span>
-                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <div style="display: flex; align-items: center;">
+                  <button class="btn-remove-section" data-section-id="sheet-section-experience" onclick="event.stopPropagation();" onmousedown="event.stopPropagation();" data-tooltip="Hide/Delete this section">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                  </button>
+                  <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
               </div>
               <div class="accordion-body">
                 <div id="experience-list" class="repeating-list">
@@ -236,7 +246,12 @@
                   <svg class="drag-handle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px; color: var(--text-muted);" data-tooltip="Drag to rearrange section sequence"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
                   <span class="section-title-text" contenteditable="true" data-section-id="sheet-section-education" onclick="event.stopPropagation();" onmousedown="event.stopPropagation();" data-tooltip="Click to edit section title">Education</span>
                 </span>
-                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <div style="display: flex; align-items: center;">
+                  <button class="btn-remove-section" data-section-id="sheet-section-education" onclick="event.stopPropagation();" onmousedown="event.stopPropagation();" data-tooltip="Hide/Delete this section">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                  </button>
+                  <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
               </div>
               <div class="accordion-body">
                 <div id="education-list" class="repeating-list">
@@ -256,7 +271,12 @@
                   <svg class="drag-handle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px; color: var(--text-muted);" data-tooltip="Drag to rearrange section sequence"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
                   <span class="section-title-text" contenteditable="true" data-section-id="sheet-section-projects" onclick="event.stopPropagation();" onmousedown="event.stopPropagation();" data-tooltip="Click to edit section title">Projects</span>
                 </span>
-                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <div style="display: flex; align-items: center;">
+                  <button class="btn-remove-section" data-section-id="sheet-section-projects" onclick="event.stopPropagation();" onmousedown="event.stopPropagation();" data-tooltip="Hide/Delete this section">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                  </button>
+                  <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
               </div>
               <div class="accordion-body">
                 <div id="projects-list" class="repeating-list">
@@ -276,7 +296,12 @@
                   <svg class="drag-handle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px; color: var(--text-muted);" data-tooltip="Drag to rearrange section sequence"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
                   <span class="section-title-text" contenteditable="true" data-section-id="sheet-section-skills" onclick="event.stopPropagation();" onmousedown="event.stopPropagation();" data-tooltip="Click to edit section title">Skills</span>
                 </span>
-                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <div style="display: flex; align-items: center;">
+                  <button class="btn-remove-section" data-section-id="sheet-section-skills" onclick="event.stopPropagation();" onmousedown="event.stopPropagation();" data-tooltip="Hide/Delete this section">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                  </button>
+                  <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
               </div>
               <div class="accordion-body">
                 <div class="form-grid">
@@ -316,6 +341,14 @@
               </div>
             </div>
 
+          </div>
+          
+          <!-- Add / Restore Sections Panel -->
+          <div class="dashboard-card mt-3" id="manage-sections-card" style="background-color: rgba(15, 23, 42, 0.4); border-color: var(--border-color); padding: 16px;">
+            <h4 style="font-family: 'Outfit'; font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--text-secondary); margin-bottom: 12px; letter-spacing: 0.5px;">Add / Restore Standard Sections</h4>
+            <div id="sections-restore-grid" style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <!-- Dynamic chips will be inserted here by JS -->
+            </div>
           </div>
         </div>
 

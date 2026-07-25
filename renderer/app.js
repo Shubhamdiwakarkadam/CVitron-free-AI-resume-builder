@@ -172,6 +172,15 @@ document.addEventListener('DOMContentLoaded', () => {
     'sheet-section-skills': 'Technical Skills'
   };
 
+  // Section Visibility Map
+  let sectionVisibility = {
+    'sheet-section-summary': true,
+    'sheet-section-experience': true,
+    'sheet-section-education': true,
+    'sheet-section-projects': true,
+    'sheet-section-skills': true
+  };
+
   // ----------------------------------------------------
   // INITIALIZATION & SETTINGS
   // ----------------------------------------------------
@@ -225,6 +234,51 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     });
+
+    // Initialize section visibility from storage
+    Object.keys(sectionVisibility).forEach(sectionId => {
+      const savedVis = localStorage.getItem(`section_visibility_${sectionId}`);
+      if (savedVis !== null) {
+        sectionVisibility[sectionId] = savedVis === 'true';
+      }
+      
+      // Hide accordion if not visible
+      if (!sectionVisibility[sectionId]) {
+        const item = document.querySelector(`.accordion-item[data-section-id="${sectionId}"]`);
+        if (item) {
+          item.style.display = 'none';
+        }
+      }
+    });
+
+    // Bind event listeners to remove buttons on accordion headers
+    document.querySelectorAll('.btn-remove-section').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const sectionId = btn.getAttribute('data-section-id');
+        
+        sectionVisibility[sectionId] = false;
+        localStorage.setItem(`section_visibility_${sectionId}`, 'false');
+        
+        // Hide accordion item
+        const item = document.querySelector(`.accordion-item[data-section-id="${sectionId}"]`);
+        if (item) {
+          item.style.display = 'none';
+          item.classList.remove('expanded');
+          const body = item.querySelector('.accordion-body');
+          if (body) body.style.display = 'none';
+        }
+        
+        showToast('Section hidden. Restore it anytime from the bottom panel!', 3000);
+        AudioEffects.playClick();
+        
+        renderRestorePanel();
+        updatePreview();
+      });
+    });
+
+    // Initial render of the restore panel
+    renderRestorePanel();
   }
 
   function updateApiBadge(isMock) {
@@ -238,6 +292,65 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       dot.className = 'badge-dot dot-green';
       text.innerText = 'Gemini Live';
+    }
+  }
+
+  function renderRestorePanel() {
+    const grid = document.getElementById('sections-restore-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    let hiddenCount = 0;
+    const defaultMap = {
+      'sheet-section-summary': 'Professional Summary',
+      'sheet-section-experience': 'Work Experience',
+      'sheet-section-education': 'Education',
+      'sheet-section-projects': 'Projects',
+      'sheet-section-skills': 'Skills'
+    };
+
+    Object.keys(sectionVisibility).forEach(sectionId => {
+      if (!sectionVisibility[sectionId]) {
+        hiddenCount++;
+        const chip = document.createElement('button');
+        chip.className = 'section-restore-chip';
+        chip.setAttribute('data-section-id', sectionId);
+        
+        const titleEl = document.querySelector(`.section-title-text[data-section-id="${sectionId}"]`);
+        const displayName = titleEl ? titleEl.innerText.trim() : defaultMap[sectionId];
+        
+        chip.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Add ${displayName}
+        `;
+
+        chip.addEventListener('click', () => {
+          sectionVisibility[sectionId] = true;
+          localStorage.setItem(`section_visibility_${sectionId}`, 'true');
+
+          const item = document.querySelector(`.accordion-item[data-section-id="${sectionId}"]`);
+          if (item) {
+            item.style.display = 'block';
+          }
+
+          showToast(`${displayName} section restored!`, 2000);
+          AudioEffects.playSuccess();
+
+          renderRestorePanel();
+          updatePreview();
+        });
+
+        grid.appendChild(chip);
+      }
+    });
+
+    const card = document.getElementById('manage-sections-card');
+    if (card) {
+      if (hiddenCount > 0) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
     }
   }
 
@@ -844,7 +957,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Reorder main section blocks
       let creativeMainHTML = '';
       sectionOrder.forEach(sectionId => {
-        if (sectionId !== 'sheet-section-skills' && sectionBlocks[sectionId]) {
+        if (sectionId !== 'sheet-section-skills' && sectionBlocks[sectionId] && sectionVisibility[sectionId] !== false) {
           creativeMainHTML += sectionBlocks[sectionId];
         }
       });
@@ -859,7 +972,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <div class="resume-contacts">${contactsHTML}</div>
             </div>
           </div>
-          ${skillsHTML}
+          ${sectionVisibility['sheet-section-skills'] !== false ? skillsHTML : ''}
         </div>
         <div class="creative-main">
           ${creativeMainHTML}
@@ -867,7 +980,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       let bodyHTML = '';
       sectionOrder.forEach(sectionId => {
-        if (sectionBlocks[sectionId]) {
+        if (sectionBlocks[sectionId] && sectionVisibility[sectionId] !== false) {
           bodyHTML += sectionBlocks[sectionId];
         }
       });

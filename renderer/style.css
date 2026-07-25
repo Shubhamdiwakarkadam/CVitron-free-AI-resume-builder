@@ -687,6 +687,60 @@ input::placeholder, textarea::placeholder {
   outline: none;
 }
 
+/* Restore Section Chips */
+.section-restore-chip {
+  background-color: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  color: #a5b4fc;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition-smooth);
+}
+
+.section-restore-chip:hover {
+  background-color: rgba(99, 102, 241, 0.15);
+  border-color: #6366f1;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.section-restore-chip svg {
+  width: 12px;
+  height: 12px;
+  stroke-width: 2.5px;
+}
+
+/* Accordion header delete button */
+.btn-remove-section {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  transition: var(--transition-smooth);
+}
+
+.btn-remove-section:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error-color);
+}
+
+.btn-remove-section svg {
+  width: 14px;
+  height: 14px;
+}
+
 .accordion-body {
   padding: 0 24px 24px 24px;
   display: none;
