@@ -163,6 +163,15 @@ document.addEventListener('DOMContentLoaded', () => {
     customSections: []
   };
 
+  // Section Custom Titles Map
+  let sectionTitles = {
+    'sheet-section-summary': 'Professional Summary',
+    'sheet-section-experience': 'Professional Experience',
+    'sheet-section-education': 'Education',
+    'sheet-section-projects': 'Key Projects',
+    'sheet-section-skills': 'Technical Skills'
+  };
+
   // ----------------------------------------------------
   // INITIALIZATION & SETTINGS
   // ----------------------------------------------------
@@ -182,6 +191,40 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('settings-mock-mode').checked = isMock;
     
     updateApiBadge(isMock);
+
+    // Initialize custom section titles from storage and bind event listeners
+    document.querySelectorAll('.section-title-text').forEach(el => {
+      const sectionId = el.getAttribute('data-section-id');
+      const savedTitle = localStorage.getItem(`section_title_${sectionId}`);
+      if (savedTitle) {
+        el.innerText = savedTitle;
+        sectionTitles[sectionId] = savedTitle;
+      }
+
+      el.addEventListener('input', (e) => {
+        const secId = e.target.getAttribute('data-section-id');
+        const newTitle = e.target.innerText.trim();
+        
+        const defaultMap = {
+          'sheet-section-summary': 'Professional Summary',
+          'sheet-section-experience': 'Professional Experience',
+          'sheet-section-education': 'Education',
+          'sheet-section-projects': 'Key Projects',
+          'sheet-section-skills': 'Technical Skills'
+        };
+        
+        sectionTitles[secId] = newTitle || defaultMap[secId];
+        localStorage.setItem(`section_title_${secId}`, newTitle);
+        updatePreview();
+      });
+
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          el.blur();
+        }
+      });
+    });
   }
 
   function updateApiBadge(isMock) {
@@ -660,7 +703,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (resumeData.summary) {
       summaryHTML = `
         <section class="sheet-section" id="sheet-section-summary">
-          <h3 class="section-title-sheet">Professional Summary</h3>
+          <h3 class="section-title-sheet">${sectionTitles['sheet-section-summary']}</h3>
           <div class="section-divider-sheet"></div>
           <p id="resume-sheet-summary">${resumeData.summary}</p>
         </section>`;
@@ -686,7 +729,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       expHTML = `
         <section class="sheet-section" id="sheet-section-experience">
-          <h3 class="section-title-sheet">Professional Experience</h3>
+          <h3 class="section-title-sheet">${sectionTitles['sheet-section-experience']}</h3>
           <div class="section-divider-sheet"></div>
           <div id="resume-sheet-experience-container">${expBlocks}</div>
         </section>`;
@@ -710,7 +753,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       eduHTML = `
         <section class="sheet-section" id="sheet-section-education">
-          <h3 class="section-title-sheet">Education</h3>
+          <h3 class="section-title-sheet">${sectionTitles['sheet-section-education']}</h3>
           <div class="section-divider-sheet"></div>
           <div id="resume-sheet-education-container">${eduBlocks}</div>
         </section>`;
@@ -736,7 +779,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       projHTML = `
         <section class="sheet-section" id="sheet-section-projects">
-          <h3 class="section-title-sheet">Key Projects</h3>
+          <h3 class="section-title-sheet">${sectionTitles['sheet-section-projects']}</h3>
           <div class="section-divider-sheet"></div>
           <div id="resume-sheet-projects-container">${projBlocks}</div>
         </section>`;
@@ -759,7 +802,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       skillsHTML = `
         <section class="sheet-section" id="sheet-section-skills">
-          <h3 class="section-title-sheet">Technical Skills</h3>
+          <h3 class="section-title-sheet">${sectionTitles['sheet-section-skills']}</h3>
           <div class="section-divider-sheet"></div>
           <div class="skills-grid-sheet" id="resume-sheet-skills-container">${skillsBlocks}</div>
         </section>`;

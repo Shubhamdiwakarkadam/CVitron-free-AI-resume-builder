@@ -666,6 +666,27 @@ input::placeholder, textarea::placeholder {
   transform: rotate(180deg);
 }
 
+/* Editable Section Title in Accordion Header */
+.section-title-text {
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+  padding: 0 4px;
+  border-radius: var(--border-radius-sm);
+  transition: var(--transition-smooth);
+}
+
+.section-title-text:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-bottom-color: var(--text-primary);
+  color: var(--text-primary);
+}
+
+.section-title-text:focus {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-bottom-color: #6366f1;
+  color: var(--text-primary);
+  outline: none;
+}
+
 .accordion-body {
   padding: 0 24px 24px 24px;
   display: none;
