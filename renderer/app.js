@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ----------------------------------------------------
   const AudioEffects = {
     ctx: null,
-    
+
     init() {
       // Lazy-init AudioContext to bypass browser gesture policies
       if (!this.ctx) {
@@ -19,20 +19,20 @@ document.addEventListener('DOMContentLoaded', () => {
     playHover() {
       this.init();
       if (!this.ctx) return;
-      
+
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
-      
+
       osc.type = 'sine';
       osc.frequency.setValueAtTime(800, this.ctx.currentTime);
       osc.frequency.exponentialRampToValueAtTime(1200, this.ctx.currentTime + 0.04);
-      
+
       gain.gain.setValueAtTime(0.005, this.ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.04);
-      
+
       osc.connect(gain);
       gain.connect(this.ctx.destination);
-      
+
       osc.start();
       osc.stop(this.ctx.currentTime + 0.04);
     },
@@ -43,17 +43,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
-      
+
       osc.type = 'triangle';
       osc.frequency.setValueAtTime(600, this.ctx.currentTime);
       osc.frequency.exponentialRampToValueAtTime(150, this.ctx.currentTime + 0.08);
-      
+
       gain.gain.setValueAtTime(0.02, this.ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.08);
-      
+
       osc.connect(gain);
       gain.connect(this.ctx.destination);
-      
+
       osc.start();
       osc.stop(this.ctx.currentTime + 0.08);
     },
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!this.ctx) return;
 
       const now = this.ctx.currentTime;
-      
+
       // Note 1 (E5)
       const osc1 = this.ctx.createOscillator();
       const gain1 = this.ctx.createGain();
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
       gain1.connect(this.ctx.destination);
       osc1.start();
       osc1.stop(now + 0.2);
-      
+
       // Note 2 (A5) slightly delayed
       setTimeout(() => {
         if (!this.ctx) return;
@@ -95,14 +95,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!this.ctx) return;
 
       const now = this.ctx.currentTime;
-      
+
       // Low sub base sweep
       const subOsc = this.ctx.createOscillator();
       const subGain = this.ctx.createGain();
       subOsc.type = 'sawtooth';
       subOsc.frequency.setValueAtTime(60, now);
       subOsc.frequency.exponentialRampToValueAtTime(110, now + 1.2);
-      
+
       // Filter sweep to make it feel techy/futuristic
       const filter = this.ctx.createBiquadFilter();
       filter.type = 'lowpass';
@@ -112,11 +112,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       subGain.gain.setValueAtTime(0.03, now);
       subGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
-      
+
       subOsc.connect(filter);
       filter.connect(subGain);
       subGain.connect(this.ctx.destination);
-      
+
       subOsc.start();
       subOsc.stop(now + 1.2);
 
@@ -172,6 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'sheet-section-skills': 'Technical Skills'
   };
 
+
   // Section Visibility Map
   let sectionVisibility = {
     'sheet-section-summary': true,
@@ -184,12 +185,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // ----------------------------------------------------
   // INITIALIZATION & SETTINGS
   // ----------------------------------------------------
-  
+
   // Developer Configurations - Hardcoded for security
   const DEVELOPER_UPI_ID = 'shubhamdiwakarkadam-2@okaxis';
   const DEVELOPER_PAYPAL_CLIENT = 'sb';
-  const DEVELOPER_RAZORPAY_KEY = 'rzp_test_51Psz8o1O9pX2L4'; // Default Razorpay Test Key ID
-  
+  const DEVELOPER_RAZORPAY_KEY = 'rzp_live_THdv7ChQdnAW9q'; // Default Razorpay Test Key ID
+
   let razorpayLoaded = false;
 
   function initSettings() {
@@ -198,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('settings-api-key').value = savedKey;
     document.getElementById('settings-mock-mode').checked = isMock;
-    
+
     updateApiBadge(isMock);
 
     // Initialize custom section titles from storage and bind event listeners
@@ -213,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
       el.addEventListener('input', (e) => {
         const secId = e.target.getAttribute('data-section-id');
         const newTitle = e.target.innerText.trim();
-        
+
         const defaultMap = {
           'sheet-section-summary': 'Professional Summary',
           'sheet-section-experience': 'Professional Experience',
@@ -221,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'sheet-section-projects': 'Key Projects',
           'sheet-section-skills': 'Technical Skills'
         };
-        
+
         sectionTitles[secId] = newTitle || defaultMap[secId];
         localStorage.setItem(`section_title_${secId}`, newTitle);
         updatePreview();
@@ -241,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (savedVis !== null) {
         sectionVisibility[sectionId] = savedVis === 'true';
       }
-      
+
       // Hide accordion if not visible
       if (!sectionVisibility[sectionId]) {
         const item = document.querySelector(`.accordion-item[data-section-id="${sectionId}"]`);
@@ -256,10 +257,10 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const sectionId = btn.getAttribute('data-section-id');
-        
+
         sectionVisibility[sectionId] = false;
         localStorage.setItem(`section_visibility_${sectionId}`, 'false');
-        
+
         // Hide accordion item
         const item = document.querySelector(`.accordion-item[data-section-id="${sectionId}"]`);
         if (item) {
@@ -268,10 +269,10 @@ document.addEventListener('DOMContentLoaded', () => {
           const body = item.querySelector('.accordion-body');
           if (body) body.style.display = 'none';
         }
-        
+
         showToast('Section hidden. Restore it anytime from the bottom panel!', 3000);
         AudioEffects.playClick();
-        
+
         renderRestorePanel();
         updatePreview();
       });
@@ -315,10 +316,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const chip = document.createElement('button');
         chip.className = 'section-restore-chip';
         chip.setAttribute('data-section-id', sectionId);
-        
+
         const titleEl = document.querySelector(`.section-title-text[data-section-id="${sectionId}"]`);
         const displayName = titleEl ? titleEl.innerText.trim() : defaultMap[sectionId];
-        
+
         chip.innerHTML = `
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           Add ${displayName}
@@ -361,7 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     localStorage.setItem('gemini_api_key', key);
     localStorage.setItem('gemini_mock_mode', isMock ? 'true' : 'false');
-    
+
     updateApiBadge(isMock);
     AudioEffects.playSuccess();
     showToast('Configuration saved successfully!', 2000);
@@ -371,14 +372,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // ----------------------------------------------------
   // NAVIGATION ROUTING
   // ----------------------------------------------------
-  
+
   const menuItems = document.querySelectorAll('.menu-item');
   const tabContents = document.querySelectorAll('.tab-content');
 
   menuItems.forEach(item => {
     item.addEventListener('click', () => {
       const tabName = item.getAttribute('data-tab');
-      
+
       menuItems.forEach(i => i.classList.remove('active'));
       tabContents.forEach(t => t.classList.remove('active'));
 
@@ -396,13 +397,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // ----------------------------------------------------
   // ACCORDIONS
   // ----------------------------------------------------
-  
+
   const accordionHeaders = document.querySelectorAll('.accordion-header');
   accordionHeaders.forEach(header => {
     header.addEventListener('click', () => {
       const item = header.parentElement;
       const isExpanded = item.classList.contains('expanded');
-      
+
       // Close other accordions in this view
       const siblings = item.parentElement.querySelectorAll('.accordion-item');
       siblings.forEach(sib => sib.classList.remove('expanded'));
@@ -416,7 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ----------------------------------------------------
   // FORM BINDINGS & SYNCHRONIZATION
   // ----------------------------------------------------
-  
+
   // Connect text inputs with state & preview
   const personalInputs = [
     { id: 'input-fullname', key: 'fullname' },
@@ -464,7 +465,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 1. Work Experience
   const experienceList = document.getElementById('experience-list');
-  
+
   function addExperience(company = '', role = '', duration = '', description = '') {
     const index = resumeData.experience.length;
     resumeData.experience.push({ company, role, duration, description });
@@ -795,7 +796,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Header Content
     const nameText = resumeData.personal.fullname || 'Your Name';
     const titleText = resumeData.personal.title || 'Target Job Title';
-    
+
     const contacts = [
       resumeData.personal.email,
       resumeData.personal.phone,
@@ -1006,7 +1007,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   let userZoom = null; // null = Auto-fit mode
-  
+
   function scaleResumePreview() {
     const container = document.querySelector('.pdf-container');
     const sheet = document.getElementById('resume-sheet-preview');
@@ -1026,19 +1027,19 @@ document.addEventListener('DOMContentLoaded', () => {
       if (zoomText) {
         zoomText.innerText = Math.round(userZoom * 100) + '%';
       }
-      
+
       sheet.style.transform = `scale(${finalScale})`;
       sheet.style.transformOrigin = window.innerWidth <= 768 ? 'top left' : 'top center';
-      
+
       const marginB = (1 - finalScale) * sheet.offsetHeight;
       sheet.style.marginBottom = `-${marginB}px`;
-      
+
     } else {
       // Auto-fit mode
       if (window.innerWidth <= 768) {
         const targetWidth = containerWidth - 20; // 10px side margins
         finalScale = targetWidth / 794; // 794px is base A4 page width
-        
+
         if (finalScale < 1) {
           sheet.style.transform = `scale(${finalScale})`;
           sheet.style.transformOrigin = 'top left';
@@ -1049,7 +1050,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Desktop side-by-side: scale to fit columns perfectly
         const targetWidth = containerWidth - 40; // 20px padding
         finalScale = targetWidth / 794;
-        
+
         if (finalScale < 1) {
           sheet.style.transform = `scale(${finalScale})`;
           sheet.style.transformOrigin = 'top center';
@@ -1059,7 +1060,7 @@ document.addEventListener('DOMContentLoaded', () => {
           finalScale = 1.0;
         }
       }
-      
+
       if (zoomText) {
         zoomText.innerText = Math.round(finalScale * 100) + '% (Auto)';
       }
@@ -1134,7 +1135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       const analysis = await AI.checkATSCompatibility(resumeText, jdText);
-      
+
       // Populate results
       const scoreCircle = document.getElementById('ats-score-circle');
       const scoreVal = document.getElementById('ats-score-value');
@@ -1143,7 +1144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const score = analysis.score || 0;
       scoreVal.innerText = `${score}%`;
-      
+
       // Set circular stroke offset based on A = 2 * PI * r = 251.2
       const radius = 40;
       const circumference = 2 * Math.PI * radius;
@@ -1219,7 +1220,7 @@ document.addEventListener('DOMContentLoaded', () => {
   subtabHeaders.forEach(hdr => {
     hdr.addEventListener('click', () => {
       const targetSubtab = hdr.getAttribute('data-subtab');
-      
+
       subtabHeaders.forEach(h => h.classList.remove('active'));
       document.querySelectorAll('.results-tab-body .subtab-content').forEach(c => c.classList.remove('active'));
 
@@ -1278,7 +1279,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
     try {
       const resumeText = compileResumeText();
       const letter = await AI.generateCoverLetter(resumeText, company, role, clJd);
-      
+
       clBody.innerText = letter;
       clResultContainer.classList.remove('hidden');
     } catch (err) {
@@ -1326,7 +1327,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
 
     try {
       const enhanced = await AI.enhanceParagraph(text, tone, keywords);
-      
+
       origBox.innerText = text;
       newBox.innerText = enhanced;
       improveResults.classList.remove('hidden');
@@ -1347,7 +1348,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
     if (inlineApplyCallback) {
       inlineApplyCallback(text);
       showToast('Text updated in resume builder!', 2500);
-      
+
       // Auto return to builder tab
       setTimeout(() => {
         switchTab('builder');
@@ -1362,7 +1363,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
     improveInput.value = text || '';
     improveResults.classList.add('hidden');
     switchTab('improve');
-    
+
     // Smooth focus
     setTimeout(() => {
       improveInput.focus();
@@ -1388,15 +1389,15 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
   const paymentModal = document.getElementById('payment-modal');
   const btnClosePayment = document.getElementById('btn-close-payment');
 
-  
+
   // Tab buttons
   const tabBtnUpi = document.getElementById('tab-btn-upi');
   const tabBtnPaypal = document.getElementById('tab-btn-paypal');
-  
+
   // Panels
   const panelUpi = document.getElementById('payment-panel-upi');
   const panelPaypal = document.getElementById('payment-panel-paypal');
-  
+
   // UPI Form Elements
   const inputUpiUtr = document.getElementById('input-upi-utr');
   const btnVerifyUpi = document.getElementById('btn-verify-upi');
@@ -1414,14 +1415,14 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
     tabBtnUpi.classList.remove('active');
     panelPaypal.classList.remove('hidden');
     panelUpi.classList.add('hidden');
-    
+
     // Load PayPal SDK when tab is clicked
     loadPayPalSDK();
   });
 
   function loadPayPalSDK(callback) {
     const paypalClientId = DEVELOPER_PAYPAL_CLIENT;
-    
+
     if (paypalLoaded) {
       initPayPalButtons();
       if (callback) callback();
@@ -1443,7 +1444,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
 
   function initPayPalButtons() {
     if (!window.paypal) return;
-    
+
     // Clear previous content
     const container = document.getElementById('paypal-button-container');
     container.innerHTML = '';
@@ -1452,9 +1453,9 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
       createOrder: (data, actions) => {
         return actions.order.create({
           purchase_units: [{
-              amount: {
-                value: '0.25'
-              },
+            amount: {
+              value: '0.25'
+            },
             description: 'CVitron Premium PDF Resume Unlock'
           }]
         });
@@ -1530,7 +1531,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
           }, 800);
         },
         "modal": {
-          "ondismiss": function() {
+          "ondismiss": function () {
             btnVerifyUpi.disabled = false;
             btnVerifyUpi.innerText = 'Pay ₹20.00 via Razorpay';
           }
@@ -1559,10 +1560,10 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
 
   function openPaymentModal() {
     paymentModal.classList.remove('hidden');
-    
+
     // Default to UPI tab first
     tabBtnUpi.click();
-    
+
     // Set up QR Code values
     setupUpiPayment();
   }
@@ -1576,7 +1577,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
   // ----------------------------------------------------
   // PDF EXPORT
   // ----------------------------------------------------
-  
+
   document.getElementById('btn-export-pdf').addEventListener('click', () => {
     if (isPaid) {
       PDFExporter.exportResume();
@@ -1636,7 +1637,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
     updateStyleClasses();
     updatePreview();
   });
-  
+
   const settingsTheme = document.getElementById('settings-theme');
   if (settingsTheme) {
     settingsTheme.addEventListener('change', (e) => {
@@ -1652,7 +1653,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
   // ----------------------------------------------------
   // RUN INITIAL DEFAULT TEMPLATE DATA
   // ----------------------------------------------------
-  
+
   initSettings();
   updateStyleClasses();
 
@@ -1664,7 +1665,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
   document.getElementById('input-location').value = 'Seattle, WA';
   document.getElementById('input-linkedin').value = 'linkedin.com/in/dianacloud';
   document.getElementById('input-website').value = 'dianaprince.cloud';
-  
+
   document.getElementById('input-summary').value = 'Detail-oriented and results-driven Solutions Architect with 8+ years of experience designing and implementing highly available, scalable cloud infrastructure. Expert in AWS, Kubernetes, and automating dev workflows.';
 
   document.getElementById('input-skills-languages').value = 'JavaScript, Go, Python, Bash, SQL';
@@ -1728,7 +1729,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
   // ----------------------------------------------------
   const splitter = document.getElementById('layout-splitter');
   const controlsPanel = document.querySelector('.controls-panel');
-  
+
   // Load saved splitter width on startup
   const savedSplitterWidth = localStorage.getItem('workspace_splitter_width');
   if (savedSplitterWidth) {
@@ -1739,34 +1740,34 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
     splitter.addEventListener('mousedown', (e) => {
       e.preventDefault();
       splitter.classList.add('dragging');
-      
+
       const startX = e.clientX;
       const startWidth = controlsPanel.getBoundingClientRect().width;
-      
+
       function onMouseMove(moveEvent) {
         const deltaX = moveEvent.clientX - startX;
         const newWidth = startWidth + deltaX;
-        
+
         // Boundaries checks (320px min, 75% max width)
         const containerWidth = splitter.parentElement.getBoundingClientRect().width;
         const minWidth = 320;
         const maxWidth = containerWidth * 0.75;
-        
+
         if (newWidth >= minWidth && newWidth <= maxWidth) {
           controlsPanel.style.width = newWidth + 'px';
           scaleResumePreview();
         }
       }
-      
+
       function onMouseUp() {
         splitter.classList.remove('dragging');
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
-        
+
         // Cache the custom panel width
         localStorage.setItem('workspace_splitter_width', controlsPanel.getBoundingClientRect().width);
       }
-      
+
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
     });
@@ -1777,7 +1778,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
   // ----------------------------------------------------
   const sidebar = document.querySelector('.sidebar');
   const btnToggleSidebar = document.getElementById('btn-toggle-sidebar');
-  
+
   // Load saved sidebar state on startup
   const isSidebarCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
   if (isSidebarCollapsed) {
@@ -1792,10 +1793,10 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
       sidebar.classList.toggle('collapsed');
       const isCollapsed = sidebar.classList.contains('collapsed');
       btnToggleSidebar.setAttribute('data-tooltip', isCollapsed ? 'Expand sidebar' : 'Collapse sidebar');
-      
+
       // Cache user sidebar state preference
       localStorage.setItem('sidebar_collapsed', isCollapsed);
-      
+
       // Update active tooltip text instantly if open
       const tooltip = document.getElementById('app-tooltip');
       if (tooltip && tooltip.classList.contains('visible')) {
@@ -1808,7 +1809,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
   // ACCORDION DRAG & DROP REORDERING
   // ----------------------------------------------------
   const accordionContainer = document.querySelector('.form-accordion');
-  
+
   if (accordionContainer) {
     // Dynamic Draggable Toggle: Enable dragging ONLY when hovering over the header
     const draggableSections = accordionContainer.querySelectorAll('.draggable-section');
@@ -1829,9 +1830,9 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
     accordionContainer.addEventListener('dragstart', (e) => {
       const item = e.target.closest('.draggable-section');
       if (!item) return;
-      
+
       item.classList.add('dragging');
-      
+
       // Collapse accordion item on dragstart for a cleaner drag representation
       item.classList.remove('expanded');
     });
@@ -1850,16 +1851,16 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
       e.preventDefault();
       const draggingItem = accordionContainer.querySelector('.dragging');
       if (!draggingItem) return;
-      
+
       const siblings = Array.from(accordionContainer.querySelectorAll('.draggable-section:not(.dragging)'));
-      
+
       // Find the sibling to drop before
       const nextSibling = siblings.find(sibling => {
         const box = sibling.getBoundingClientRect();
         // Check if mouse cursor is past the middle of the sibling
         return e.clientY <= box.top + box.height / 2;
       });
-      
+
       if (nextSibling) {
         accordionContainer.insertBefore(draggingItem, nextSibling);
       } else {
@@ -1886,21 +1887,21 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
     }
 
     clearTimeout(tooltipTimeout);
-    
+
     // Add a 350ms delay for high-fidelity hovering affordance
     tooltipTimeout = setTimeout(() => {
       appTooltip.innerText = target.getAttribute('data-tooltip');
       appTooltip.classList.remove('hidden');
-      
+
       const rect = target.getBoundingClientRect();
       let x = rect.left + rect.width / 2;
       let y = rect.top - appTooltip.offsetHeight - 8;
-      
+
       // Special offset math for the vertical layout splitter
       if (target.id === 'layout-splitter') {
         y = e.clientY - appTooltip.offsetHeight - 12;
       }
-      
+
       // Boundary safety checks
       if (x < appTooltip.offsetWidth / 2) {
         x = appTooltip.offsetWidth / 2 + 4;
@@ -1941,7 +1942,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
       startupSplash.classList.add('fade-out');
       // Play clean boot chime!
       AudioEffects.playStartup();
-      
+
       // Completely remove splash screen overlay from DOM after transition completes (800ms)
       setTimeout(() => {
         startupSplash.remove();
@@ -1954,7 +1955,7 @@ SKILLS: Languages: ${resumeData.skills.languages}, Frameworks: ${resumeData.skil
   // ----------------------------------------------------
   // List of interactive selectors to play hover and click sounds
   const interactiveSelector = '.menu-item, .btn-primary, .btn-secondary, .btn-micro, .btn-micro-ai, .accordion-header, .btn-toggle-sidebar, .layout-splitter, .btn-zoom-action';
-  
+
   // Hover effect: mouseenter
   document.addEventListener('mouseenter', (e) => {
     const target = e.target.closest(interactiveSelector);
